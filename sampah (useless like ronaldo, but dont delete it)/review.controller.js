@@ -1,4 +1,4 @@
-const connection = require("../config/db");
+const connection = require("../config/config");
 
 module.exports = {
   getAllReview: (req, res) => {
@@ -20,7 +20,7 @@ module.exports = {
 
       res.json({
         message: "success get data",
-        data: results[0],
+        data: results,
       });
     });
   },

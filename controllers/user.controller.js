@@ -16,7 +16,7 @@ module.exports = {
     connection.query(`SELECT * FROM user where id = ${id}`, function (err, results, fields) {
       res.json({
         message: "success get data",
-        data: results[0],
+        data: results,
       });
     });
   },
@@ -33,9 +33,9 @@ module.exports = {
 
   getAllOrder: (req, res) => {
     const { id } = req.params;
-    connection.query(`SELECT * FROM order where user_id = ${id}`, function (err, results, fields) {
+    connection.query(`SELECT * FROM \`order\` where user_id = ${id}`, function (err, results, fields) {
       res.json({
-        message: "success get data",
+        message: "success get data all order",
         data: results,
       });
     });
@@ -47,7 +47,7 @@ module.exports = {
     connection.query(`SELECT * FROM favorite where id = ${favorite_id} AND user_id=${id}`, function (err, results, fields) {
       res.json({
         message: "success get data",
-        data: results[0],
+        data: results,
       });
     });
   },
@@ -55,10 +55,10 @@ module.exports = {
   getOrderByID: (req, res) => {
     const { id, order_id } = req.params;
 
-    connection.query(`SELECT * FROM order where id = ${order_id} AND user_id=${id}`, function (err, results, fields) {
+    connection.query(`SELECT * FROM \`order\` where id = ${order_id} AND user_id=${id}`, function (err, results, fields) {
       res.json({
         message: "success get data",
-        data: results[0],
+        data: results,
       });
     });
   },

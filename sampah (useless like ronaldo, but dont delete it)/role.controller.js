@@ -20,7 +20,7 @@ module.exports = {
 
       res.json({
         message: "success get data",
-        data: results[0],
+        data: results,
       });
     });
   },

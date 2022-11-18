@@ -8,6 +8,6 @@ router.get("/:id", getUserByID);
 router.get("/:id/favorite", getAllFavorite);
 router.get("/:id/order", getAllOrder);
 router.get("/:id/favorite/:favorite_id", getFavoriteByID);
-router.get("/:id/order/order_id", getOrderByID);
+router.get("/:id/order/:order_id", getOrderByID);
 
 module.exports = router;

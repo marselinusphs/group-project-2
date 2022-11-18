@@ -1,4 +1,4 @@
-const connection = require("../config/db");
+const connection = require("../config/config");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -31,7 +31,7 @@ module.exports = {
     connection.query(`SELECT * FROM favorite where id = ${id}`, function (err, results, fields) {
       res.json({
         message: "success get data",
-        data: results[0],
+        data: results,
       });
     });
   },

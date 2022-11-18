@@ -163,3 +163,36 @@ Grand Show Aksi SMANDA 2022 mengangkat tema "Reunion" yang dimana Aksi Smanda ka
 INSERT INTO `favorite`(`user_id`, `event_id`) VALUES 
 (1,1),(1,2),(1,3),(2,4),(2,5),(2,6),(3,7),(3,8),(3,9);
 
+INSERT INTO `order`(`user_id`, `event_id`, `qty`, `total_price`) VALUES 
+('1','1','1','50000'),
+('1','2','1','15000'),
+('1','3','1','50000'),
+('1','4','1','0'),
+('1','5','1','50000'),
+('2','6','1','185000'),
+('2','7','1','0'),
+('2','8','1','0'),
+('2','9','1','50000'),
+('2','10','1','0'),
+('3','11','1','150000'),
+('3','12','1','150000'),
+('3','13','1','45000'),
+('3','14','1','350000'),
+('3','15','1','0')
+
+INSERT INTO `review`(`user_id`, `event_id`, `star`, `review`) VALUES 
+('1','1','5','Bagus banget'),
+('1','2','5','Bagus banget'),
+('1','3','4','Bagus banget'),
+('1','4','5','Bagus banget'),
+('1','5','5','Bagus banget'),
+('2','6','4','Bagus banget'),
+('2','7','3','Bagus banget'),
+('2','8','4','Bagus banget'),
+('2','9','5','Bagus banget'),
+('2','10','5','Bagus banget'),
+('3','11','5','Bagus banget'),
+('3','12','4','Bagus banget'),
+('3','13','5','Bagus banget'),
+('3','14','4','Bagus banget'),
+('3','15','4','Bagus banget')
