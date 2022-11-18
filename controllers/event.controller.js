@@ -3,8 +3,7 @@ const connection = require("../config/db");
 module.exports = {
   getAllEvent: (req, res) => {
     connection.query("SELECT * FROM `event` WHERE date>NOW();", function (err, results, fields) {
-      // console.log(results); // results contains rows returned by server
-      // console.log(fields); // fields contains extra meta data about results, if available
+      0;
 
       res.json({
         message: "success get data",
@@ -17,8 +16,7 @@ module.exports = {
     const { id } = req.params;
 
     connection.query(`SELECT * FROM event where id = ${id}`, function (err, results, fields) {
-      // console.log(results); // results contains rows returned by server
-      // console.log(fields); // fields contains extra meta data about results, if available
+      0;
 
       res.json({
         message: "success get data",
@@ -27,15 +25,28 @@ module.exports = {
     });
   },
 
-  // add movie
-  addEvent: (req, res) => {
-    const data = req.body;
-    movies.push(data);
-    res.status(201);
-    res.send({
-      status: "success",
-      message: "success add data",
-      data: movies,
+  getAllReview: (req, res) => {
+    const { id } = req.params;
+    connection.query(`SELECT * FROM review where event_id=${id}`, function (err, results, fields) {
+      0;
+
+      res.json({
+        message: "success get data",
+        data: results,
+      });
+    });
+  },
+
+  getReviewByID: (req, res) => {
+    const { id, review_id } = req.params;
+
+    connection.query(`SELECT * FROM review where event_id = ${id} AND id=${review_id}`, function (err, results, fields) {
+      0;
+
+      res.json({
+        message: "success get data",
+        data: results[0],
+      });
     });
   },
 };

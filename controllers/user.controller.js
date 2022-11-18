@@ -3,9 +3,6 @@ const connection = require("../config/db");
 module.exports = {
   getAllUser: (req, res) => {
     connection.query("SELECT * FROM `user`", function (err, results, fields) {
-      // console.log(results); // results contains rows returned by server
-      // console.log(fields); // fields contains extra meta data about results, if available
-
       res.json({
         message: "success get data",
         data: results,
@@ -17,9 +14,6 @@ module.exports = {
     const { id } = req.params;
 
     connection.query(`SELECT * FROM user where id = ${id}`, function (err, results, fields) {
-      // console.log(results); // results contains rows returned by server
-      // console.log(fields); // fields contains extra meta data about results, if available
-
       res.json({
         message: "success get data",
         data: results[0],
@@ -28,10 +22,18 @@ module.exports = {
   },
 
   getAllFavorite: (req, res) => {
-    connection.query("SELECT * FROM `favorite`", function (err, results, fields) {
-      // console.log(results); // results contains rows returned by server
-      // console.log(fields); // fields contains extra meta data about results, if available
+    const { id } = req.params;
+    connection.query(`SELECT * FROM favorite where user_id = ${id}`, function (err, results, fields) {
+      res.json({
+        message: "success get data",
+        data: results,
+      });
+    });
+  },
 
+  getAllOrder: (req, res) => {
+    const { id } = req.params;
+    connection.query(`SELECT * FROM order where user_id = ${id}`, function (err, results, fields) {
       res.json({
         message: "success get data",
         data: results,
@@ -40,12 +42,20 @@ module.exports = {
   },
 
   getFavoriteByID: (req, res) => {
-    const { id } = req.params;
+    const { id, favorite_id } = req.params;
 
-    connection.query(`SELECT * FROM favorite where id = ${id}`, function (err, results, fields) {
-      // console.log(results); // results contains rows returned by server
-      // console.log(fields); // fields contains extra meta data about results, if available
+    connection.query(`SELECT * FROM favorite where id = ${favorite_id} AND user_id=${id}`, function (err, results, fields) {
+      res.json({
+        message: "success get data",
+        data: results[0],
+      });
+    });
+  },
 
+  getOrderByID: (req, res) => {
+    const { id, order_id } = req.params;
+
+    connection.query(`SELECT * FROM order where id = ${order_id} AND user_id=${id}`, function (err, results, fields) {
       res.json({
         message: "success get data",
         data: results[0],
