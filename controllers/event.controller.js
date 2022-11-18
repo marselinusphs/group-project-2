@@ -26,4 +26,16 @@ module.exports = {
       });
     });
   },
+
+  // add movie
+  addEvent: (req, res) => {
+    const data = req.body;
+    movies.push(data);
+    res.status(201);
+    res.send({
+      status: "success",
+      message: "success add data",
+      data: movies,
+    });
+  },
 };

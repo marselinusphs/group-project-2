@@ -49,14 +49,27 @@ const getAllUser = [
   },
 ];
 
+const KEY = "marselinus";
+
 router.post("/login", (req, res) => {
   const data = req.body;
   const isUserExist = getAllUser.find((item) => data.email === item.email && data.password === item.password);
 
   if (isUserExist) {
+    const token = jwt.sign(
+      {
+        id: isUserExist.id,
+        name: isUserExist.name,
+        email: isUserExist.email,
+        role: isUserExist.role_id,
+      },
+      KEY,
+      { expiresIn: "6h" }
+    );
+
     res.json({
       message: "login success",
-      token: "asdf",
+      token,
     });
   } else {
     res.status(401).json({
