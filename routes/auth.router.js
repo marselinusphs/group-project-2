@@ -64,7 +64,7 @@ router.post("/login", (req, res) => {
         role: isUserExist.role_id,
       },
       KEY,
-      { expiresIn: "6h" }
+      { expiresIn: "3h" }
     );
 
     res.json({
@@ -78,10 +78,6 @@ router.post("/login", (req, res) => {
   }
 });
 
-router.post("/register", (req, res) => {
-  res.json({
-    message: "register",
-  });
-});
+router.post("/register", (req, res) => {});
 
 module.exports = router;

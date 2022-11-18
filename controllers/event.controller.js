@@ -7,7 +7,7 @@ module.exports = {
       // console.log(fields); // fields contains extra meta data about results, if available
 
       res.json({
-        massage: "success get data",
+        message: "success get data",
         data: results,
       });
     });
@@ -21,7 +21,7 @@ module.exports = {
       // console.log(fields); // fields contains extra meta data about results, if available
 
       res.json({
-        massage: "success get data",
+        message: "success get data",
         data: results[0],
       });
     });
