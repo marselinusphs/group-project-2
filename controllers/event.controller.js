@@ -1,4 +1,4 @@
-const connection = require("../config/db");
+const connection = require("../config/config");
 
 module.exports = {
   getAllEvent: (req, res) => {

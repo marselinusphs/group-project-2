@@ -178,7 +178,7 @@ INSERT INTO `order`(`user_id`, `event_id`, `qty`, `total_price`) VALUES
 ('3','12','1','150000'),
 ('3','13','1','45000'),
 ('3','14','1','350000'),
-('3','15','1','0')
+('3','15','1','0');
 
 INSERT INTO `review`(`user_id`, `event_id`, `star`, `review`) VALUES 
 ('1','1','5','Bagus banget'),
