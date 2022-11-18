@@ -1,8 +1,8 @@
 const connection = require("../config/db");
 
 module.exports = {
-  getAllEvent: (req, res) => {
-    connection.query("SELECT * FROM `event` WHERE date>NOW();", function (err, results, fields) {
+  getAllOrder: (req, res) => {
+    connection.query("SELECT * FROM `order`", function (err, results, fields) {
       // console.log(results); // results contains rows returned by server
       // console.log(fields); // fields contains extra meta data about results, if available
 
@@ -13,10 +13,10 @@ module.exports = {
     });
   },
 
-  getEventByID: (req, res) => {
+  getOrderByID: (req, res) => {
     const { id } = req.params;
 
-    connection.query(`SELECT * FROM event where id = ${id}`, function (err, results, fields) {
+    connection.query(`SELECT * FROM order where id = ${id}`, function (err, results, fields) {
       // console.log(results); // results contains rows returned by server
       // console.log(fields); // fields contains extra meta data about results, if available
 

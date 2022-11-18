@@ -26,6 +26,17 @@ create table `event` (
     price int DEFAULT 0
 );
 
+create table `order` (
+	id int primary key not null auto_increment,	
+    user_id int,
+    `datetime` datetime DEFAULT CURRENT_TIMESTAMP,
+	event_id int,
+    qty int,
+    total_price int,
+	FOREIGN KEY (user_id) REFERENCES `user`(id),
+	FOREIGN KEY (event_id) REFERENCES `event`(id)
+);
+
 create table favorite (
 	id int primary key not null auto_increment,
 	user_id int,
