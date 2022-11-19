@@ -1,6 +1,6 @@
 const connection = require("../config/config");
 const models = require("../models");
-const { User, Order, Favorite, Review, Role } = models;
+const { User, Order, Favorite, Event, Role } = models;
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -78,7 +78,7 @@ module.exports = {
 
   getOrderByID: async (req, res) => {
     const { id, order_id } = req.params;
-    const orders = await Order.findAll({
+    const orders = await Order.findByPk({
       where: {
         user_id: id,
         id: order_id,
@@ -92,16 +92,37 @@ module.exports = {
   },
 
   addOrder: async (req, res) => {
-    const { name, description, image, date, time, location, loc, loc_url, price } = req.body;
-    const events = await Event.create({ name, description, image, date, time, location, loc, loc_url, price });
+    const { event_id, qty } = req.body;
+    const { id } = req.params;
+    const events = await Event.findByPk(event_id);
+
+    const { price } = events;
+    console.log(price);
+
+    const total_price = price * qty;
+
+    const orders = await Order.create({ user_id: id, event_id, qty, total_price });
 
     res.status(200).json({
       message: "success insert data",
-      data: events,
+      data: orders,
     });
   },
 
-  deleteOrderByID: (req, res) => {},
+  deleteOrderByID: async (req, res) => {
+    const { id, order_id } = req.params;
+
+    await Order.destroy({
+      where: {
+        id: order_id,
+        user_id: id,
+      },
+    });
+
+    res.status(200).json({
+      message: "success delete data",
+    });
+  },
 
   updateOrderByID: (req, res) => {},
 
