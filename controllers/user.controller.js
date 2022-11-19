@@ -78,7 +78,7 @@ module.exports = {
 
   getOrderByID: async (req, res) => {
     const { id, order_id } = req.params;
-    const orders = await Order.findByPk({
+    const orders = await Order.findAll({
       where: {
         user_id: id,
         id: order_id,
@@ -97,8 +97,6 @@ module.exports = {
     const events = await Event.findByPk(event_id);
 
     const { price } = events;
-    console.log(price);
-
     const total_price = price * qty;
 
     const orders = await Order.create({ user_id: id, event_id, qty, total_price });
@@ -124,7 +122,29 @@ module.exports = {
     });
   },
 
-  updateOrderByID: (req, res) => {},
+  updateOrderByID: async (req, res) => {
+    const { event_id, qty } = req.body;
+    const { id, order_id } = req.params;
+    const events = await Event.findByPk(event_id);
+
+    const { price } = events;
+
+    const total_price = price * qty;
+
+    const orders = await Order.update(
+      { user_id: id, event_id, qty, total_price },
+      {
+        where: {
+          user_id: id,
+          id: order_id,
+        },
+      }
+    );
+
+    res.status(200).json({
+      message: "success edit data",
+    });
+  },
 
   getAllFavorite: async (req, res) => {
     const { id } = req.params;

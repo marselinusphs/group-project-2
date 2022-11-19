@@ -11,6 +11,7 @@ module.exports = {
       },
       date: {
         type: Sequelize.DATE,
+        defaultValue: new Date(),
       },
       user_id: {
         type: Sequelize.INTEGER,

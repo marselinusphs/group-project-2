@@ -1,6 +1,6 @@
 const connection = require("../config/config");
 const models = require("../models");
-const { Event } = models;
+const { Event, Review } = models;
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -62,30 +62,78 @@ module.exports = {
     });
   },
 
-  getAllReview: (req, res) => {
+  getAllReview: async (req, res) => {
     const { id } = req.params;
-    connection.query(`SELECT * FROM review where event_id=${id}`, function (err, results, fields) {
-      res.json({
-        message: "success get data",
-        data: results,
-      });
+    const reviews = await Review.findAll({
+      where: {
+        event_id: id,
+      },
+    });
+
+    res.json({
+      message: "success get data",
+      data: reviews,
     });
   },
 
-  getReviewByID: (req, res) => {
+  getReviewByID: async (req, res) => {
+    const { id, review_id } = req.params;
+    const reviews = await Review.findAll({
+      where: {
+        event_id: id,
+        id: review_id,
+      },
+    });
+
+    res.json({
+      message: "success get data",
+      data: reviews,
+    });
+  },
+
+  addReview: async (req, res) => {
+    const { user_id, star, review } = req.body;
+    const { id } = req.params;
+
+    const reviews = await Review.create({ event_id: id, user_id, star, review });
+
+    res.status(200).json({
+      message: "success insert data",
+      data: reviews,
+    });
+  },
+
+  deleteReviewByID: async (req, res) => {
     const { id, review_id } = req.params;
 
-    connection.query(`SELECT * FROM review where event_id = ${id} AND id=${review_id}`, function (err, results, fields) {
-      res.json({
-        message: "success get data",
-        data: results,
-      });
+    await Review.destroy({
+      where: {
+        id: review_id,
+        event_id: id,
+      },
+    });
+
+    res.status(200).json({
+      message: "success delete data",
     });
   },
 
-  addReview: (req, res) => {},
+  updateReviewByID: async (req, res) => {
+    const { star, review } = req.body;
+    const { id, review_id } = req.params;
 
-  deleteReviewByID: (req, res) => {},
+    const reviews = await Review.update(
+      { star, review },
+      {
+        where: {
+          event_id: id,
+          id: review_id,
+        },
+      }
+    );
 
-  updateReviewByID: (req, res) => {},
+    res.status(200).json({
+      message: "success edit data",
+    });
+  },
 };
