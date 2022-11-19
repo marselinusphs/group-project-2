@@ -1,4 +1,5 @@
 const connection = require("../config/config");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   getAllEvent: (req, res) => {
@@ -21,6 +22,12 @@ module.exports = {
     });
   },
 
+  addEvent: (req, res) => {},
+
+  deleteEventByID: (req, res) => {},
+
+  updateEventByID: (req, res) => {},
+
   getAllReview: (req, res) => {
     const { id } = req.params;
     connection.query(`SELECT * FROM review where event_id=${id}`, function (err, results, fields) {
@@ -41,4 +48,10 @@ module.exports = {
       });
     });
   },
+
+  addReview: (req, res) => {},
+
+  deleteReviewByID: (req, res) => {},
+
+  updateReviewByID: (req, res) => {},
 };

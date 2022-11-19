@@ -1,0 +1,12 @@
+npx sequelize db:create
+npx sequelize model:create --name User --attributes name:string,email:string,password:string,role_id:integer
+npx sequelize model:create --name User --attributes name:string,email:string,password:string,role_id:integer
+npx sequelize model:create --name User --attributes name:string,email:string,password:string,role_id:integer
+npx sequelize model:create --name User --attributes name:string,email:string,password:string,role_id:integer
+npx sequelize model:create --name User --attributes name:string,email:string,password:string,role_id:integer
+
+npx sequelize db:migrate
+npx sequelize db:migrate:undo
+
+npx sequelize seed:create --name demo-user
+npx sequelize db:seed --seed 20221119052930-demo-user.js
