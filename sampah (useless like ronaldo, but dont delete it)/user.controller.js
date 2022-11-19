@@ -76,90 +76,57 @@ module.exports = {
     });
   },
 
-  getOrderByID: async (req, res) => {
-    const { id, order_id } = req.params;
-    const orders = await Order.findAll({
-      where: {
-        user_id: id,
-        id: order_id,
-      },
-    });
+  getOrderByID: (req, res) => {
+    try {
+      const { id, order_id } = req.params;
+      const auth = req.headers.authorization;
+      const token = auth.split(" ")[1];
+      // jwt.verify(token, "marselinus");
 
-    res.json({
-      message: "success get data",
-      data: orders,
-    });
+      connection.query(`SELECT * FROM \`order\` where id = ${order_id} AND user_id=${id}`, function (err, results, fields) {
+        // connection.query(`SELECT * FROM \`order\``, function (err, results, fields) {
+        res.json({
+          message: "success get data",
+          data: results,
+        });
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "not valid token",
+      });
+    }
   },
 
-  addOrder: async (req, res) => {
-    const { name, description, image, date, time, location, loc, loc_url, price } = req.body;
-    const events = await Event.create({ name, description, image, date, time, location, loc, loc_url, price });
-
-    res.status(200).json({
-      message: "success insert data",
-      data: events,
-    });
-  },
+  addOrder: (req, res) => {},
 
   deleteOrderByID: (req, res) => {},
 
   updateOrderByID: (req, res) => {},
 
-  getAllFavorite: async (req, res) => {
+  getAllFavorite: (req, res) => {
     const { id } = req.params;
-    const favorite = await Favorite.findAll({
-      where: {
-        user_id: id,
-      },
-    });
-
-    res.json({
-      message: "success get data",
-      data: favorite,
+    connection.query(`SELECT * FROM favorite where user_id = ${id}`, function (err, results, fields) {
+      res.json({
+        message: "success get data",
+        data: results,
+      });
     });
   },
 
-  getFavoriteByID: async (req, res) => {
-    const { id, favorite_id } = req.params;
-    const favorites = await Favorite.findAll({
-      where: {
-        user_id: id,
-        id: favorite_id,
-      },
-    });
-
-    res.json({
-      message: "success get data",
-      data: favorites,
-    });
-  },
-
-  addFavorite: async (req, res) => {
-    const { event_id } = req.body;
-    const { id } = req.params;
-
-    const favorites = await Favorite.create({ user_id: id, event_id });
-
-    res.status(200).json({
-      message: "success insert data",
-      data: favorites,
-    });
-  },
-
-  deleteFavoriteByID: async (req, res) => {
+  getFavoriteByID: (req, res) => {
     const { id, favorite_id } = req.params;
 
-    await Favorite.destroy({
-      where: {
-        id: favorite_id,
-        user_id: id,
-      },
-    });
-
-    res.status(200).json({
-      message: "success delete data",
+    connection.query(`SELECT * FROM favorite where id = ${favorite_id} AND user_id=${id}`, function (err, results, fields) {
+      res.json({
+        message: "success get data",
+        data: results,
+      });
     });
   },
+
+  addFavorite: (req, res) => {},
+
+  deleteFavoriteByID: (req, res) => {},
 
   updateFavoriteByID: (req, res) => {},
 };

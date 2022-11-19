@@ -195,4 +195,4 @@ INSERT INTO `review`(`user_id`, `event_id`, `star`, `review`) VALUES
 ('3','12','4','Bagus banget'),
 ('3','13','5','Bagus banget'),
 ('3','14','4','Bagus banget'),
-('3','15','4','Bagus banget')
+('3','15','4','Bagus banget');

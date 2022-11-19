@@ -1,32 +1,66 @@
 const connection = require("../config/config");
+const models = require("../models");
+const { Event } = models;
 const jwt = require("jsonwebtoken");
 
 module.exports = {
-  getAllEvent: (req, res) => {
-    connection.query("SELECT * FROM `event` WHERE date>NOW();", function (err, results, fields) {
-      res.json({
-        message: "success get data",
-        data: results,
-      });
+  getAllEvent: async (req, res) => {
+    const event = await Event.findAll();
+    res.json({
+      message: "success get data",
+      data: event,
     });
   },
 
-  getEventByID: (req, res) => {
+  getEventByID: async (req, res) => {
     const { id } = req.params;
-
-    connection.query(`SELECT * FROM event where id = ${id}`, function (err, results, fields) {
-      res.json({
-        message: "success get data",
-        data: results,
-      });
+    const events = await Event.findByPk(id);
+    res.json({
+      message: "success get data",
+      data: events,
     });
   },
 
-  addEvent: (req, res) => {},
+  addEvent: async (req, res) => {
+    const { name, description, image, date, time, location, loc, loc_url, price } = req.body;
+    const events = await Event.create({ name, description, image, date, time, location, loc, loc_url, price });
 
-  deleteEventByID: (req, res) => {},
+    res.status(200).json({
+      message: "success insert data",
+      data: events,
+    });
+  },
 
-  updateEventByID: (req, res) => {},
+  deleteEventByID: async (req, res) => {
+    const { id } = req.params;
+    await Event.destroy({
+      where: {
+        id,
+      },
+    });
+
+    res.status(200).json({
+      message: "success delete data",
+    });
+  },
+
+  updateEventByID: async (req, res) => {
+    const { id } = req.params;
+    const { name, description, image, date, time, location, loc, loc_url, price } = req.body;
+
+    await Event.update(
+      { name, description, image, date, time, location, loc, loc_url, price },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+
+    res.json({
+      message: "success edit data",
+    });
+  },
 
   getAllReview: (req, res) => {
     const { id } = req.params;
