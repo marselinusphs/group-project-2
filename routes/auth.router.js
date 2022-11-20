@@ -27,7 +27,7 @@ router.post("/login", async (req, res) => {
         role: users[0].dataValues.role_id,
       },
       process.env.KEY,
-      { expiresIn: "3h" }
+      { expiresIn: "8h" }
     );
 
     res.json({
