@@ -2,6 +2,7 @@ const connection = require("../config/config");
 const models = require("../models");
 const { User, Order, Favorite, Event, Role } = models;
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   getAllUser: async (req, res) => {
@@ -22,8 +23,10 @@ module.exports = {
   },
 
   addUser: async (req, res) => {
-    const { name, email, password, role_id } = req.body;
-    const user = await User.create({ name, email, password, role_id });
+    const saltRounds = 10;
+    const { name, email, password } = req.body;
+    const hashedPassword = bcrypt.hashSync(password, saltRounds);
+    const user = await User.create({ name, email, password: hashedPassword });
 
     res.status(200).json({
       message: "success insert data",

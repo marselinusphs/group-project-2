@@ -1,69 +1,32 @@
 const express = require("express");
+const models = require("../models");
+const { User, Order, Favorite, Event, Role } = models;
 const router = express.Router();
+require("dotenv").config();
+
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// const { getAllUser, getUserByID } = require("../controllers/user.controller");
-
-const getAllUser = [
-  {
-    id: 1,
-    name: "Aldi",
-    email: "aldi@gmail.com",
-    password: "aldi123",
-    role_id: 1,
-  },
-  {
-    id: 2,
-    name: "Budi",
-    email: "budi@gmail.com",
-    password: "budi123",
-    role_id: 1,
-  },
-  {
-    id: 3,
-    name: "Caca",
-    email: "caca@gmail.com",
-    password: "caca123",
-    role_id: 1,
-  },
-  {
-    id: 4,
-    name: "Marselinus",
-    email: "marselinusphs@gmail.com",
-    password: "marselinus123",
-    role_id: 2,
-  },
-  {
-    id: 5,
-    name: "Rovinda",
-    email: "rovinda@gmail.com",
-    password: "rovinda123",
-    role_id: 2,
-  },
-  {
-    id: 6,
-    name: "Nola",
-    email: "nola@gmail.com",
-    password: "nola123",
-    role_id: 2,
-  },
-];
-
-const KEY = "marselinus";
-
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   const data = req.body;
-  const isUserExist = getAllUser.find((item) => data.email === item.email && data.password === item.password);
+  const users = await User.findAll({
+    where: {
+      email: data.email,
+    },
+  });
 
-  if (isUserExist) {
+  const { password } = users[0].dataValues;
+  const checkPwd = bcrypt.compareSync(data.password, password);
+
+  if (checkPwd) {
     const token = jwt.sign(
       {
-        id: isUserExist.id,
-        name: isUserExist.name,
-        email: isUserExist.email,
-        role: isUserExist.role_id,
+        id: users[0].dataValues.id,
+        name: users[0].dataValues.name,
+        email: users[0].dataValues.email,
+        role: users[0].dataValues.role_id,
       },
-      KEY,
+      process.env.KEY,
       { expiresIn: "3h" }
     );
 
@@ -78,6 +41,16 @@ router.post("/login", (req, res) => {
   }
 });
 
-router.post("/register", (req, res) => {});
+router.post("/register", async (req, res) => {
+  const saltRounds = 10;
+  const { name, email, password } = req.body;
+  const hashedPassword = bcrypt.hashSync(password, saltRounds);
+  const user = await User.create({ name, email, password: hashedPassword });
+
+  res.status(200).json({
+    message: "success insert data",
+    data: user,
+  });
+});
 
 module.exports = router;
